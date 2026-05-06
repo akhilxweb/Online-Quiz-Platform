@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | QuizVerse</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-dark">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-effect">
+            <div class="sidebar-header">
+                <a href="../index.html" class="logo"><span class="text-gradient">Quiz</span>Verse</a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="categories.html"><i class="fas fa-th-large"></i> Categories</a>
+                <a href="battle.html"><i class="fas fa-swords"></i> Multiplayer</a>
+                <a href="leaderboard.html" class="active"><i class="fas fa-trophy"></i> Leaderboard</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="leaderboard-page-container">
+                <div class="section-header">
+                    <h1>Global <span class="text-gradient">Champions</span></h1>
+                    <p>The best of the best in QuizVerse history.</p>
+                </div>
+
+                <!-- Top 3 Podium -->
+                <div class="podium-container">
+                    <div class="podium-item second" data-aos="fade-up">
+                        <div class="podium-avatar"><i class="fas fa-user"></i></div>
+                        <span class="podium-name">Alex Dev</span>
+                        <span class="podium-xp">18,400 XP</span>
+                        <div class="podium-rank rank-2">2</div>
+                    </div>
+                    <div class="podium-item first" data-aos="fade-up" data-aos-delay="100">
+                        <div class="podium-avatar"><i class="fas fa-crown"></i></div>
+                        <span class="podium-name">Sarah Logic</span>
+                        <span class="podium-xp">24,500 XP</span>
+                        <div class="podium-rank rank-1">1</div>
+                    </div>
+                    <div class="podium-item third" data-aos="fade-up" data-aos-delay="200">
+                        <div class="podium-avatar"><i class="fas fa-user"></i></div>
+                        <span class="podium-name">Code King</span>
+                        <span class="podium-xp">15,200 XP</span>
+                        <div class="podium-rank rank-3">3</div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard Table -->
+                <div class="leaderboard-table-container glass-effect">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Level</th>
+                                <th>Score (XP)</th>
+                                <th>Win Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body">
+                            <!-- Dynamic Rows -->
+                            <tr>
+                                <td>#4</td>
+                                <td><div class="player-cell"><i class="fas fa-user-circle"></i> ByteMaster</div></td>
+                                <td>24</td>
+                                <td>12,450</td>
+                                <td>74%</td>
+                            </tr>
+                            <tr>
+                                <td>#5</td>
+                                <td><div class="player-cell"><i class="fas fa-user-circle"></i> JavaGuru</div></td>
+                                <td>21</td>
+                                <td>10,200</td>
+                                <td>68%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <style>
+        .leaderboard-page-container { max-width: 1000px; margin: 0 auto; }
+        
+        /* Podium */
+        .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 30px; margin: 60px 0; height: 350px; }
+        .podium-item { flex: 1; max-width: 180px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; }
+        .podium-avatar { width: 100px; height: 100px; background: var(--glass-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 15px; border: 2px solid var(--glass-border); box-shadow: var(--glow-blue); }
+        .first .podium-avatar { width: 130px; height: 130px; border-color: #f59e0b; box-shadow: 0 0 30px rgba(245, 158, 11, 0.4); font-size: 4rem; color: #f59e0b; }
+        .second .podium-avatar { border-color: #94a3b8; }
+        .third .podium-avatar { border-color: #b45309; }
+
+        .podium-name { font-weight: 700; font-size: 1.2rem; display: block; margin-bottom: 5px; }
+        .podium-xp { color: var(--accent-cyan); font-weight: 600; }
+        
+        .podium-rank { width: 100%; padding: 20px; border-radius: 15px 15px 0 0; font-weight: 800; font-size: 2rem; margin-top: 20px; }
+        .rank-1 { background: linear-gradient(to top, rgba(245, 158, 11, 0.3), transparent); height: 150px; }
+        .rank-2 { background: linear-gradient(to top, rgba(148, 163, 184, 0.3), transparent); height: 110px; }
+        .rank-3 { background: linear-gradient(to top, rgba(180, 83, 9, 0.3), transparent); height: 80px; }
+
+        /* Table */
+        .leaderboard-table-container { padding: 20px; margin-top: 40px; }
+        .leaderboard-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .leaderboard-table th { padding: 15px; color: var(--text-gray); border-bottom: 1px solid var(--glass-border); font-size: 0.9rem; }
+        .leaderboard-table td { padding: 20px 15px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .player-cell { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .player-cell i { font-size: 1.2rem; color: var(--primary); }
+
+        @media (max-width: 768px) {
+            .podium-container { gap: 10px; }
+            .podium-avatar { width: 70px; height: 70px; font-size: 1.5rem; }
+            .first .podium-avatar { width: 90px; height: 90px; font-size: 2rem; }
+        }
+    </style>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init();</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | QuizVerse</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-darker">
+    <div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
+        <div class="glass-effect animate-fade-in" style="width: 100%; max-width: 450px; padding: 50px; border-radius: var(--radius-lg); text-align: center;">
+            <div class="logo" style="font-size: 3rem; margin-bottom: 10px;"><span class="text-gradient">Quiz</span>Verse</div>
+            <p style="color: var(--text-muted); margin-bottom: 40px; text-transform: uppercase; letter-spacing: 4px; font-size: 0.8rem;">Master the Arena</p>
+
+            <button id="google-login-btn" class="btn btn-outline w-100" style="background: white; color: black; border: none; justify-content: center; margin-bottom: 30px; padding: 16px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G" style="width: 20px;">
+                Continue with Google
+            </button>
+
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 30px;">
+                <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+                <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">OR SIGN IN</span>
+                <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+            </div>
+
+            <form id="login-form">
+                <div style="text-align: left; margin-bottom: 24px;">
+                    <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted);">Email Address</label>
+                    <input type="email" class="form-control" placeholder="warrior@example.com" required>
+                </div>
+                <div style="text-align: left; margin-bottom: 24px;">
+                    <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted);">Password</label>
+                    <input type="password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100" style="justify-content: center; margin-top: 10px;">
+                    Sign In to Arena <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <p style="text-align: center; margin-top: 30px; color: var(--text-muted); font-size: 0.9rem;">
+                New warrior? <a href="register.html" class="text-gradient" style="font-weight: 700; text-decoration: none;">Create Account</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>

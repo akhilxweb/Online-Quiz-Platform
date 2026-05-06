@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights | QuizVerse</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-dark">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-effect">
+            <div class="sidebar-header">
+                <a href="../index.html" class="logo"><span class="text-gradient">Quiz</span>Verse</a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="categories.html"><i class="fas fa-th-large"></i> Categories</a>
+                <a href="battle.html"><i class="fas fa-swords"></i> Multiplayer</a>
+                <a href="analytics.html" class="active"><i class="fas fa-chart-pie"></i> Analytics</a>
+                <a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="section-header" data-aos="fade-right">
+                <h1>Data <span class="text-gradient">Intelligence</span></h1>
+                <p>Quantify your progress with neural-inspired analytics.</p>
+            </div>
+
+            <div class="analytics-grid-premium">
+                <!-- Large Accuracy Chart -->
+                <div class="analytics-card glass-effect chart-large" data-aos="fade-up">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line text-primary"></i> Accuracy Trajectory</h3>
+                        <div class="time-filters">
+                            <button class="active">7D</button>
+                            <button>1M</button>
+                            <button>ALL</button>
+                        </div>
+                    </div>
+                    <div class="chart-box">
+                        <canvas id="accuracyChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Mastery Radar -->
+                <div class="analytics-card glass-effect" data-aos="fade-left">
+                    <h3><i class="fas fa-brain text-secondary"></i> Knowledge Sphere</h3>
+                    <div class="chart-box-radar">
+                        <canvas id="masteryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Activity Heatmap / Bar -->
+                <div class="analytics-card glass-effect" data-aos="fade-right">
+                    <h3><i class="fas fa-calendar-alt text-accent-cyan"></i> Engagement Matrix</h3>
+                    <div class="chart-box">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Key Metrics Grid -->
+                <div class="metrics-sub-grid">
+                    <div class="metric-card glass-effect">
+                        <span class="m-label">Global Rank</span>
+                        <span class="m-value text-gradient">#1,245</span>
+                        <span class="m-trend pos"><i class="fas fa-caret-up"></i> 12%</span>
+                    </div>
+                    <div class="metric-card glass-effect">
+                        <span class="m-label">Avg. Accuracy</span>
+                        <span class="m-value">84.5%</span>
+                        <span class="m-trend pos"><i class="fas fa-caret-up"></i> 2.4%</span>
+                    </div>
+                    <div class="metric-card glass-effect">
+                        <span class="m-label">Battle Win-Rate</span>
+                        <span class="m-value">62%</span>
+                        <span class="m-trend neg"><i class="fas fa-caret-down"></i> 0.5%</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <style>
+        .analytics-grid-premium { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 40px; }
+        .analytics-card { padding: 35px; min-height: 350px; display: flex; flex-direction: column; }
+        .chart-large { grid-column: 1 / 3; height: 450px; }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .card-header h3 { font-size: 1.3rem; display: flex; align-items: center; gap: 12px; }
+        
+        .time-filters { display: flex; gap: 10px; background: rgba(2, 6, 23, 0.4); padding: 5px; border-radius: 12px; }
+        .time-filters button { background: none; border: none; color: var(--text-gray); padding: 5px 15px; font-weight: 700; cursor: pointer; border-radius: 8px; transition: 0.3s; }
+        .time-filters button.active { background: var(--primary); color: white; }
+
+        .chart-box { flex-grow: 1; min-height: 0; }
+        .chart-box-radar { flex-grow: 1; display: flex; align-items: center; justify-content: center; }
+        
+        .metrics-sub-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .metric-card { padding: 25px; display: flex; flex-direction: column; justify-content: center; }
+        .m-label { font-size: 0.85rem; color: var(--text-gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+        .m-value { font-size: 2.2rem; font-weight: 900; line-height: 1; margin-bottom: 10px; }
+        .m-trend { font-size: 0.9rem; font-weight: 700; }
+        .m-trend.pos { color: var(--accent-green); }
+        .m-trend.neg { color: var(--accent-pink); }
+
+        @media (max-width: 1200px) {
+            .analytics-grid-premium { grid-template-columns: 1fr; }
+            .chart-large { grid-column: 1 / 2; }
+            .metrics-sub-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .metrics-sub-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="module" src="../js/analytics.js"></script>
+    <script>AOS.init({ duration: 1000 });</script>
+</body>
+</html>

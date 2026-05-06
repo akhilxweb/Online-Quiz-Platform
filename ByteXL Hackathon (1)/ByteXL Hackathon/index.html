@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizVerse | Master Your Knowledge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-darker">
+    
+    <nav style="padding: 30px 60px; display: flex; justify-content: space-between; align-items: center;">
+        <div class="logo"><span class="text-gradient">Quiz</span>Verse</div>
+        <div style="display: flex; gap: 20px;">
+            <a href="pages/login.html" class="btn btn-outline">Login</a>
+            <a href="pages/register.html" class="btn btn-primary">Sign Up</a>
+        </div>
+    </nav>
+
+    <main style="max-width: 1200px; margin: 100px auto; text-align: center;">
+        <div class="animate-fade-in">
+            <span class="badge" style="background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 10px 20px; border-radius: 50px; font-weight: 800; font-size: 0.8rem; letter-spacing: 2px;">THE FUTURE OF LEARNING</span>
+            <h1 style="font-size: 5rem; margin: 30px 0; line-height: 1.1;">Compete. Learn.<br><span class="text-gradient">Dominate.</span></h1>
+            <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 40px; line-height: 1.6;">
+                Experience the world's most advanced AI-powered quiz platform. Challenge friends in real-time battles, climb the rankings, and master any topic with your personal AI Study Buddy.
+            </p>
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <a href="pages/register.html" class="btn btn-primary btn-xl">Get Started Free <i class="fas fa-rocket"></i></a>
+                <a href="#features" class="btn btn-outline btn-xl">Explore Arena</a>
+            </div>
+        </div>
+
+        <div style="margin-top: 100px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;" class="animate-fade-in" id="features">
+            <div class="glass-effect" style="padding: 40px; border-radius: var(--radius-lg); text-align: left;">
+                <i class="fas fa-bolt" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 20px;"></i>
+                <h3>Real-time Battles</h3>
+                <p style="color: var(--text-muted); margin-top: 15px;">Face off against opponents in high-stakes knowledge combat with synchronized timers.</p>
+            </div>
+            <div class="glass-effect" style="padding: 40px; border-radius: var(--radius-lg); text-align: left;">
+                <i class="fas fa-robot" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 20px;"></i>
+                <h3>AI Architect</h3>
+                <p style="color: var(--text-muted); margin-top: 15px;">Generate unique quizzes on any topic instantly using state-of-the-art AI models.</p>
+            </div>
+            <div class="glass-effect" style="padding: 40px; border-radius: var(--radius-lg); text-align: left;">
+                <i class="fas fa-trophy" style="font-size: 2.5rem; color: var(--warning); margin-bottom: 20px;"></i>
+                <h3>Mastery Rankings</h3>
+                <p style="color: var(--text-muted); margin-top: 15px;">Earn XP, unlock exclusive badges, and claim your spot on the global Hall of Fame.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer style="margin-top: 150px; padding: 60px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
+        <p style="color: var(--text-muted); font-size: 0.9rem;">&copy; 2026 QuizVerse. Built for ByteXL Hackathon.</p>
+    </footer>
+
+    <script src="js/firebase-config.js"></script>
+</body>
+</html>
