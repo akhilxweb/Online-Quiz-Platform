@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Quiz Generator - QuizBattle</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/quiz-generator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>QuizBattle</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="quiz-categories.html">Quizzes</a></li>
+                    <li><a href="quiz-generator.html" class="active">AI Generator</a></li>
+                    <li><a href="battle-room.html">Battle</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="generator-main">
+        <div class="container">
+            <!-- Header -->
+            <header class="generator-header">
+                <h1><i class="fas fa-magic"></i> AI Quiz Generator</h1>
+                <p>Generate unlimited AI-powered quizzes on any topic with customized difficulty</p>
+            </header>
+
+            <!-- Generator Form -->
+            <section class="generator-form-section">
+                <div class="form-container glass-effect">
+                    <h2>Create Your Quiz</h2>
+
+                    <form id="quizGeneratorForm">
+                        <!-- Topic Input -->
+                        <div class="form-group">
+                            <label for="topic">
+                                <i class="fas fa-book"></i> Quiz Topic
+                            </label>
+                            <input 
+                                type="text" 
+                                id="topic" 
+                                name="topic"
+                                placeholder="e.g., Advanced Binary Trees, Python Decorators, React Hooks"
+                                required
+                            >
+                            <p class="help-text">Be specific for better AI-generated questions</p>
+                        </div>
+
+                        <!-- Number of Questions -->
+                        <div class="form-group">
+                            <label for="questionCount">
+                                <i class="fas fa-list-ol"></i> Number of Questions
+                            </label>
+                            <div class="slider-group">
+                                <input 
+                                    type="range" 
+                                    id="questionCount" 
+                                    name="questionCount"
+                                    min="5" 
+                                    max="50" 
+                                    value="10"
+                                    class="slider"
+                                >
+                                <span class="slider-value" id="questionValue">10</span>
+                            </div>
+                        </div>
+
+                        <!-- Difficulty Level -->
+                        <div class="form-group">
+                            <label><i class="fas fa-chart-line"></i> Difficulty Level</label>
+                            <div class="difficulty-options">
+                                <label class="difficulty-option">
+                                    <input type="radio" name="difficulty" value="beginner" checked>
+                                    <span class="difficulty-badge beginner">
+                                        <i class="fas fa-play"></i> Beginner
+                                    </span>
+                                </label>
+                                <label class="difficulty-option">
+                                    <input type="radio" name="difficulty" value="intermediate">
+                                    <span class="difficulty-badge intermediate">
+                                        <i class="fas fa-fire"></i> Intermediate
+                                    </span>
+                                </label>
+                                <label class="difficulty-option">
+                                    <input type="radio" name="difficulty" value="advanced">
+                                    <span class="difficulty-badge advanced">
+                                        <i class="fas fa-skull-crossbones"></i> Advanced
+                                    </span>
+                                </label>
+                                <label class="difficulty-option">
+                                    <input type="radio" name="difficulty" value="expert">
+                                    <span class="difficulty-badge expert">
+                                        <i class="fas fa-crown"></i> Expert
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Question Type -->
+                        <div class="form-group">
+                            <label><i class="fas fa-question"></i> Question Type</label>
+                            <div class="question-types">
+                                <label class="type-option">
+                                    <input type="checkbox" name="questionType" value="mcq" checked>
+                                    <span>Multiple Choice</span>
+                                </label>
+                                <label class="type-option">
+                                    <input type="checkbox" name="questionType" value="true-false">
+                                    <span>True/False</span>
+                                </label>
+                                <label class="type-option">
+                                    <input type="checkbox" name="questionType" value="shortanswer">
+                                    <span>Short Answer</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Category Selection -->
+                        <div class="form-group">
+                            <label for="category">
+                                <i class="fas fa-tag"></i> Category
+                            </label>
+                            <select id="category" name="category">
+                                <option value="">Select a category</option>
+                                <option value="programming">Programming Languages</option>
+                                <option value="dsa">Data Structures & Algorithms</option>
+                                <option value="webdev">Web Development</option>
+                                <option value="databases">Databases</option>
+                                <option value="cloud">Cloud & DevOps</option>
+                                <option value="ai-ml">AI & Machine Learning</option>
+                                <option value="security">Cybersecurity</option>
+                                <option value="aptitude">Aptitude & Reasoning</option>
+                                <option value="general">General Knowledge</option>
+                            </select>
+                        </div>
+
+                        <!-- Advanced Options -->
+                        <details class="advanced-options">
+                            <summary>
+                                <i class="fas fa-cog"></i>
+                                Advanced Options
+                            </summary>
+
+                            <div class="advanced-content">
+                                <!-- Include Explanations -->
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="includeExplanations" checked>
+                                    <span>Include detailed explanations with each answer</span>
+                                </label>
+
+                                <!-- Time Limit -->
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="timeLimit" checked>
+                                    <span>Add time limit for each question</span>
+                                </label>
+
+                                <!-- Include Images -->
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="includeImages">
+                                    <span>Include images/diagrams (if available)</span>
+                                </label>
+
+                                <!-- Focus Areas -->
+                                <div class="form-group">
+                                    <label for="focusAreas">
+                                        Focus Areas (comma-separated)
+                                    </label>
+                                    <textarea 
+                                        id="focusAreas"
+                                        name="focusAreas"
+                                        placeholder="e.g., recursion, optimization, edge cases"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </details>
+
+                        <!-- API Key Input -->
+                        <details class="api-settings">
+                            <summary>
+                                <i class="fas fa-key"></i>
+                                API Settings
+                            </summary>
+
+                            <div class="api-content">
+                                <p class="info-text">
+                                    To use the AI quiz generator, you need to provide an API key from either Gemini or Groq.
+                                </p>
+                                
+                                <div class="form-group">
+                                    <label for="apiProvider">
+                                        <i class="fas fa-robot"></i> API Provider
+                                    </label>
+                                    <select id="apiProvider" name="apiProvider">
+                                        <option value="gemini">Google Gemini API</option>
+                                        <option value="groq" selected>Groq API</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="apiKey">
+                                        <i class="fas fa-key"></i> API Key
+                                    </label>
+                                    <div class="api-key-input">
+                                        <input 
+                                            type="password" 
+                                            id="apiKey" 
+                                            name="apiKey"
+                                            placeholder="Enter your API key"
+                                        >
+                                        <button type="button" onclick="toggleApiKeyVisibility()" class="btn-toggle">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <p class="help-text">
+                                        <i class="fas fa-lock"></i>
+                                        Your API key is stored locally and only used for quiz generation.
+                                    </p>
+                                </div>
+
+                                <div class="api-links">
+                                    <a href="https://ai.google.dev" target="_blank" class="api-btn gemini">
+                                        <i class="fas fa-link"></i> Get Gemini API Key
+                                    </a>
+                                    <a href="https://www.groq.com" target="_blank" class="api-btn groq">
+                                        <i class="fas fa-link"></i> Get Groq API Key
+                                    </a>
+                                </div>
+                            </div>
+                        </details>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary btn-lg btn-submit" id="generateBtn">
+                            <i class="fas fa-sparkles"></i>
+                            <span>Generate Quiz</span>
+                        </button>
+                    </form>
+
+                    <!-- Demo Mode Notice -->
+                    <div class="demo-notice">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Demo mode: Generate sample quiz without API key for testing</p>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="generateDemoQuiz()">
+                            Try Demo Quiz
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Generated Quizzes -->
+            <section class="generated-quizzes" id="generatedSection" style="display: none;">
+                <h2 class="section-title">Your Generated Quiz</h2>
+                <div class="quiz-container" id="quizContainer"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Loading Animation -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Generating AI Quiz...</p>
+            <p class="loading-hint">This may take a few moments</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="../js/quiz-generator.js"></script>
+</body>
+</html>

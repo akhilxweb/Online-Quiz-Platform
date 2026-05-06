@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Categories - QuizBattle</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/quiz-categories.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>QuizBattle</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="quiz-categories.html" class="active">Quizzes</a></li>
+                    <li><a href="quiz-generator.html">AI Generator</a></li>
+                    <li><a href="battle-room.html">Battle</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="quiz-categories-main">
+        <div class="container">
+            <header class="categories-header">
+                <h1>Quiz Categories</h1>
+                <p>Select your category and master the skills</p>
+            </header>
+
+            <!-- Search & Filter -->
+            <div class="search-filter glass-effect">
+                <input type="text" placeholder="Search categories..." id="searchInput">
+                <select id="categoryFilter">
+                    <option value="">All Difficulties</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                    <option value="expert">Expert</option>
+                </select>
+            </div>
+
+            <!-- Categories Grid -->
+            <div class="categories-grid" id="categoriesGrid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/quiz-categories.js"></script>
+</body>
+</html>

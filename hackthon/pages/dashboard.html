@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - QuizBattle</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar dashboard-navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>QuizBattle</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="quiz-categories.html">Quizzes</a></li>
+                    <li><a href="quiz-generator.html">AI Generator</a></li>
+                    <li><a href="battle-room.html">Battle</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search quizzes...">
+                    </div>
+                    <button class="btn-notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-menu">
+                        <div class="user-avatar">👤</div>
+                        <div class="user-dropdown glass-effect">
+                            <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                            <a href="analytics.html"><i class="fas fa-chart-line"></i> Analytics</a>
+                            <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                            <hr>
+                            <a href="../index.html" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-card glass-effect">
+                    <h1>Welcome back, <span id="userName">Player</span>! 🎮</span></h1>
+                    <p>You're on a <strong id="streakCount">0</strong> day streak! Keep it up!</p>
+                </div>
+            </section>
+
+            <!-- User Stats -->
+            <section class="user-stats-grid">
+                <div class="stat-box glass-effect hover-lift">
+                    <div class="stat-icon level">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Level</div>
+                        <div class="stat-value" id="userLevel">1</div>
+                    </div>
+                    <div class="stat-bar">
+                        <div class="progress" id="levelProgress" style="width: 30%"></div>
+                    </div>
+                </div>
+
+                <div class="stat-box glass-effect hover-lift">
+                    <div class="stat-icon xp">
+                        <i class="fas fa-zap"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">XP Points</div>
+                        <div class="stat-value" id="userXP">0</div>
+                    </div>
+                    <p class="stat-text">Next Level: <span id="nextLevelXP">1000 XP</span></p>
+                </div>
+
+                <div class="stat-box glass-effect hover-lift">
+                    <div class="stat-icon coins">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Coins</div>
+                        <div class="stat-value" id="userCoins">500</div>
+                    </div>
+                    <div class="coin-actions">
+                        <button class="btn-small"><i class="fas fa-plus"></i> Earn</button>
+                    </div>
+                </div>
+
+                <div class="stat-box glass-effect hover-lift">
+                    <div class="stat-icon rank">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Global Rank</div>
+                        <div class="stat-value" id="userRank">#245</div>
+                    </div>
+                    <p class="stat-text">Top <span id="rankPercentage">5%</span></p>
+                </div>
+            </section>
+
+            <!-- Main Actions -->
+            <section class="quick-actions">
+                <h2 class="section-title">What would you like to do?</h2>
+                <div class="actions-grid">
+                    <!-- AI Quiz Generator -->
+                    <div class="action-card glass-effect hover-lift" onclick="navigate('quiz-generator.html')">
+                        <div class="action-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3>AI Quiz Generator</h3>
+                        <p>Generate unlimited AI-powered quizzes on any topic</p>
+                        <div class="action-badge">New</div>
+                    </div>
+
+                    <!-- Quiz Categories -->
+                    <div class="action-card glass-effect hover-lift" onclick="navigate('quiz-categories.html')">
+                        <div class="action-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <h3>Browse Quizzes</h3>
+                        <p>Explore programming & DSA quiz categories</p>
+                        <div class="action-badge">847 Quizzes</div>
+                    </div>
+
+                    <!-- Battle Mode -->
+                    <div class="action-card glass-effect hover-lift" onclick="navigate('battle-room.html')">
+                        <div class="action-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>Start a Battle</h3>
+                        <p>Challenge friends in real-time multiplayer mode</p>
+                        <div class="action-badge">12 Online</div>
+                    </div>
+
+                    <!-- Leaderboard -->
+                    <div class="action-card glass-effect hover-lift" onclick="navigate('leaderboard.html')">
+                        <div class="action-icon">
+                            <i class="fas fa-ranking-star"></i>
+                        </div>
+                        <h3>Check Leaderboard</h3>
+                        <p>See global rankings and compete with others</p>
+                        <div class="action-badge">Live</div>
+                    </div>
+
+                    <!-- Daily Challenge -->
+                    <div class="action-card glass-effect hover-lift daily-challenge" onclick="startDailyChallenge()">
+                        <div class="action-icon glow">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h3>Daily Challenge</h3>
+                        <p>Earn bonus XP and unlock achievements</p>
+                        <div class="action-badge reward">+500 XP</div>
+                    </div>
+
+                    <!-- Analytics -->
+                    <div class="action-card glass-effect hover-lift" onclick="navigate('analytics.html')">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>View Analytics</h3>
+                        <p>Track your progress and performance metrics</p>
+                        <div class="action-badge">Insights</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="recent-activity">
+                <h2 class="section-title">Recent Activity</h2>
+                <div class="activity-list glass-effect">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Completed "Python Advanced" Quiz</h4>
+                            <p>Score: 950/1000</p>
+                        </div>
+                        <div class="activity-time">2 hours ago</div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon battle">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Won a Battle vs AlexCode</h4>
+                            <p>Score: 1050 - Opponent: 920</p>
+                        </div>
+                        <div class="activity-time">5 hours ago</div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Reached Level 5</h4>
+                            <p>Unlocked: Purple Theme</p>
+                        </div>
+                        <div class="activity-time">1 day ago</div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon streak">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>7 Day Streak Achieved!</h4>
+                            <p>Earned: 500 XP + 100 Coins</p>
+                        </div>
+                        <div class="activity-time">2 days ago</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Achievements Preview -->
+            <section class="achievements-section">
+                <h2 class="section-title">Recent Achievements</h2>
+                <div class="achievements-grid">
+                    <div class="achievement-badge glass-effect" title="First Quiz">
+                        <div class="achievement-icon">🏆</div>
+                        <p>First Quiz</p>
+                    </div>
+                    <div class="achievement-badge glass-effect" title="First Battle">
+                        <div class="achievement-icon">⚔️</div>
+                        <p>First Battle</p>
+                    </div>
+                    <div class="achievement-badge glass-effect" title="3 Streak">
+                        <div class="achievement-icon">🔥</div>
+                        <p>3 Day Streak</p>
+                    </div>
+                    <div class="achievement-badge glass-effect" title="100 Questions">
+                        <div class="achievement-icon">💯</div>
+                        <p>100 Questions</p>
+                    </div>
+                    <div class="achievement-badge glass-effect locked" title="Locked">
+                        <div class="achievement-icon">🔒</div>
+                        <p>Locked</p>
+                    </div>
+                    <div class="achievement-badge glass-effect locked" title="Locked">
+                        <div class="achievement-icon">🔒</div>
+                        <p>Locked</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Daily Quest -->
+            <section class="daily-quest">
+                <div class="quest-card glass-effect">
+                    <div class="quest-header">
+                        <h3>📜 Daily Quests</h3>
+                        <span class="quest-time">Resets in 12:34:21</span>
+                    </div>
+                    <div class="quest-list">
+                        <div class="quest-item">
+                            <div class="quest-checkbox">
+                                <input type="checkbox" checked>
+                                <label>Complete 1 Quiz <span class="xp-reward">+100 XP</span></label>
+                            </div>
+                            <div class="quest-progress">
+                                <div class="progress" style="width: 100%"></div>
+                             </div>
+                        </div>
+                        <div class="quest-item">
+                            <div class="quest-checkbox">
+                                <input type="checkbox">
+                                <label>Win 1 Battle <span class="xp-reward">+150 XP</span></label>
+                            </div>
+                            <div class="quest-progress">
+                                <div class="progress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="quest-item">
+                            <div class="quest-checkbox">
+                                <input type="checkbox" checked>
+                                <label>Score 800+ in Quiz <span class="xp-reward">+200 XP</span></label>
+                            </div>
+                            <div class="quest-progress">
+                                <div class="progress" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>
