@@ -50,12 +50,6 @@ This project provides a web-based quiz platform where users can:
 - :contentReference[oaicite:1]{index=1}  
 
 ---
-
-## 🚀 Live Demo
-
-👉 [Click here to view the project](#)  
-*(Add your GitHub Pages link here)*
-
 ---
 
 ## 📸 Screenshots
