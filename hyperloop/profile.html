@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | QUIZWARTS</title>
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="css/main.css">
+    
+    <style>
+        .profile-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 24px; }
+        @media(max-width: 768px) { .profile-layout { grid-template-columns: 1fr; } }
+        
+        .profile-avatar-wrapper { position: relative; width: 120px; height: 120px; margin: 0 auto; }
+        .prof-avatar-large { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--neon-cyan); object-fit: cover; box-shadow: 0 0 20px rgba(0,243,255,0.3); }
+        .avatar-upload-btn {
+            position: absolute; bottom: 0; right: 0; width: 36px; height: 36px; background: var(--bg-deep); border: 1px solid var(--neon-cyan);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--neon-cyan);
+            transition: all 0.2s;
+        }
+        .avatar-upload-btn:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 10px rgba(0,243,255,0.5); }
+
+        .stats-list { display: flex; flex-direction: column; }
+        .stat-row { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--panel-border); font-size: 1.1rem; }
+        .stat-row:last-child { border-bottom: none; }
+
+        .badges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 16px; }
+        .badge-ui { background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); border-radius: var(--radius-sm); padding: 16px 8px; text-align: center; transition: all 0.3s; }
+        .badge-ui.unlocked { border-color: var(--neon-purple); box-shadow: 0 0 15px rgba(168,85,247,0.2); }
+        .badge-ui.locked { opacity: 0.4; filter: grayscale(1); }
+        .badge-ui:hover.unlocked { transform: translateY(-4px); box-shadow: 0 0 25px rgba(168,85,247,0.4); }
+        .b-icon { font-size: 2rem; margin-bottom: 8px; }
+        .b-name { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <canvas id="particle-canvas"></canvas>
+    <div class="bg-orbs">
+        <div class="neon-orb orb-1"></div>
+        <div class="neon-orb orb-2"></div>
+    </div>
+
+    <header class="topbar" id="app-topbar"></header>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1 class="font-orbitron">Profile Command</h1>
+                <p class="text-muted">Manage your identity and stats.</p>
+            </div>
+            <a href="dashboard.html" class="btn-ghost" onclick="sfxClick()"><i class="ph-bold ph-arrow-left"></i> Back</a>
+        </div>
+
+        <div class="profile-layout">
+            <!-- Identity Card -->
+            <div class="glass-panel text-center" style="align-self: start;">
+                <div class="profile-avatar-wrapper">
+                    <img src="" alt="Avatar" id="prof-avatar-img" class="prof-avatar-large">
+                    <label for="avatar-upload" class="avatar-upload-btn" onclick="sfxClick()"><i class="ph-fill ph-camera"></i></label>
+                    <input type="file" id="avatar-upload" accept="image/*" style="display:none;">
+                </div>
+                <h2 class="font-orbitron mt-4" id="prof-name">Player</h2>
+                <p class="text-muted mb-4" id="prof-email">guest@quizwarts.com</p>
+                
+                <button class="btn-neon w-full text-red mt-4" id="btn-logout" style="justify-content:center;">Log Out</button>
+            </div>
+            
+            <!-- Stats & Achievements -->
+            <div>
+                <div class="glass-panel mb-4">
+                    <h3 class="font-orbitron text-neon-blue">Statistics</h3>
+                    <div class="stats-list mt-4">
+                        <div class="stat-row"><span>Total XP</span> <span class="text-neon-cyan font-orbitron" id="prof-xp">0</span></div>
+                        <div class="stat-row"><span>Day Streak</span> <span class="text-neon-orange font-orbitron" id="prof-streak">0</span></div>
+                        <div class="stat-row"><span>Quizzes Played</span> <span class="text-neon-purple font-orbitron" id="prof-played">0</span></div>
+                        <div class="stat-row"><span>Accuracy</span> <span class="text-neon-blue font-orbitron" id="prof-acc">0%</span></div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel">
+                    <h3 class="font-orbitron text-neon-purple">Neon Achievements</h3>
+                    <div class="badges-grid mt-4" id="prof-badges">
+                        <!-- Injected -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/db.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/ui.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            requireAuth();
+            
+            const acc = state.total > 0 ? Math.round((state.correct/state.total)*100) : 0;
+            const avatarSrc = state.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(state.user)}`;
+            
+            document.getElementById('prof-avatar-img').src = avatarSrc;
+            document.getElementById('prof-name').textContent = state.user;
+            document.getElementById('prof-email').textContent = state.email || 'guest@quizwarts.com';
+            
+            document.getElementById('prof-xp').textContent = state.xp;
+            document.getElementById('prof-streak').textContent = state.streak;
+            document.getElementById('prof-played').textContent = state.played;
+            document.getElementById('prof-acc').textContent = acc + '%';
+            
+            // Badges
+            const grid = document.getElementById('prof-badges');
+            BADGES.forEach(b => {
+                const has = state.badges.includes(b.id);
+                const el = document.createElement('div');
+                el.className = 'badge-ui ' + (has ? 'unlocked' : 'locked');
+                el.innerHTML = `<div class="b-icon">${b.icon}</div><div class="b-name">${b.name}</div>`;
+                el.title = b.req;
+                grid.appendChild(el);
+            });
+
+            // Avatar Upload
+            document.getElementById('avatar-upload').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if(file) {
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        state.avatar = ev.target.result;
+                        saveState();
+                        document.getElementById('prof-avatar-img').src = state.avatar;
+                        // update topbar if present
+                        initTopbar();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Logout
+            document.getElementById('btn-logout').addEventListener('click', () => {
+                sfxClick();
+                localStorage.removeItem('quizwarts_state');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

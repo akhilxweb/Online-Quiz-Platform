@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Arena | QUIZWARTS</title>
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    
+    <style>
+        .battle-lobby-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+        @media(max-width: 768px) { .battle-lobby-grid { grid-template-columns: 1fr; } }
+        
+        .battle-header { display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; margin-bottom: 24px; }
+        .b-player h3 { color: var(--text-muted); font-size: 1rem; margin-bottom: 4px; }
+        .b-player h2 { font-size: 2.5rem; text-shadow: none; }
+        .b-vs { font-size: 1.5rem; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 8px 16px; border-radius: 20px; }
+        
+        .battle-progress { display: flex; height: 12px; background: rgba(0,0,0,0.5); border-radius: 6px; overflow: hidden; border: 1px solid var(--panel-border); }
+        .b-prog-you { height: 100%; background: var(--neon-cyan); transition: width 0.3s; width: 50%; box-shadow: 0 0 10px var(--neon-cyan); }
+        .b-prog-opp { height: 100%; background: var(--neon-purple); transition: width 0.3s; width: 50%; box-shadow: 0 0 10px var(--neon-purple); }
+        
+        .b-final-scores { gap: 40px; margin: 32px 0; }
+        .b-final-card { text-align: center; }
+        .b-final-card span { color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        .b-final-card h2 { font-size: 3.5rem; }
+
+        .quiz-question-box { margin-bottom: 32px; min-height: 80px; }
+        .quiz-question-box h2 { font-size: 1.5rem; line-height: 1.4; font-weight: 600; }
+        
+        .quiz-options { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 32px; }
+        .opt-btn {
+            background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); padding: 16px 20px;
+            border-radius: var(--radius-sm); color: #fff; font-size: 1.05rem; text-align: left;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer;
+            font-family: inherit; font-weight: 500;
+        }
+        .opt-btn:hover:not(:disabled) { background: rgba(0,243,255,0.1); border-color: var(--neon-cyan); transform: scale(1.02); box-shadow: 0 0 15px rgba(0,243,255,0.15); }
+        .opt-btn.correct { background: rgba(16,185,129,0.2); border-color: var(--neon-green); box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        .opt-btn.wrong { background: rgba(239,68,68,0.2); border-color: var(--text-red); box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <canvas id="particle-canvas"></canvas>
+    <div class="bg-orbs">
+        <div class="neon-orb orb-1"></div>
+        <div class="neon-orb orb-2"></div>
+    </div>
+
+    <header class="topbar" id="app-topbar"></header>
+
+    <main class="main-content">
+        
+        <!-- STEP 1: LOBBY -->
+        <div id="view-lobby" class="view active">
+            <div class="page-header">
+                <div>
+                    <h1 class="font-orbitron">Battle Arena</h1>
+                    <p class="text-muted">Challenge rivals in real-time.</p>
+                </div>
+                <a href="dashboard.html" class="btn-ghost" onclick="sfxClick()"><i class="ph-bold ph-arrow-left"></i> Back</a>
+            </div>
+
+            <div class="battle-lobby-grid">
+                <!-- Create Room -->
+                <div class="glass-panel">
+                    <h3><i class="ph-fill ph-plus-circle text-neon-cyan"></i> Create Room</h3>
+                    <div class="input-group mt-4">
+                        <label>Category</label>
+                        <select id="battle-create-cat" class="neon-input">
+                            <!-- Injected -->
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Difficulty</label>
+                        <select id="battle-create-diff" class="neon-input">
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <button class="btn-neon btn-primary w-full mt-2" id="btn-create-room">Generate Room</button>
+                    <div class="room-code-display mt-4" id="room-code-box" style="display:none; text-align:center;">
+                        <p class="text-muted">Share this code:</p>
+                        <h2 class="font-orbitron text-neon-cyan" style="font-size:2rem; letter-spacing:4px;" id="room-code-text">XXXX</h2>
+                        <button class="btn-neon w-full mt-2" id="btn-start-hosted-battle">Start Match</button>
+                    </div>
+                </div>
+
+                <!-- Join Room -->
+                <div class="glass-panel">
+                    <h3><i class="ph-fill ph-sign-in text-neon-purple"></i> Join Room</h3>
+                    <div class="input-group mt-4">
+                        <label>Room Code</label>
+                        <input type="text" id="join-room-code" class="neon-input text-center font-orbitron" placeholder="XXXX" maxlength="6" style="font-size:1.5rem; letter-spacing:4px;">
+                    </div>
+                    <button class="btn-neon btn-primary w-full mt-2" id="btn-join-room">Join Match</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2: ACTIVE BATTLE -->
+        <div id="view-active" class="view hidden">
+            <div class="battle-header glass-panel">
+                <div class="b-player text-right">
+                    <h3 id="b-you-name">You</h3>
+                    <h2 class="font-orbitron text-neon-cyan" id="b-you-score">0</h2>
+                </div>
+                <div class="b-vs font-orbitron">VS</div>
+                <div class="b-player text-left">
+                    <h3 id="b-opp-name">Rival</h3>
+                    <h2 class="font-orbitron text-neon-purple" id="b-opp-score">0</h2>
+                </div>
+            </div>
+            
+            <div class="battle-progress">
+                <div class="b-prog-you" id="b-prog-you"></div>
+                <div class="b-prog-opp" id="b-prog-opp"></div>
+            </div>
+
+            <div class="glass-panel mt-4">
+                <div class="quiz-question-box">
+                    <h2 id="b-question">Loading...</h2>
+                </div>
+                <div class="quiz-options" id="b-options"></div>
+            </div>
+        </div>
+
+        <!-- STEP 3: BATTLE RESULTS -->
+        <div id="view-result" class="view hidden">
+            <div class="result-panel glass-panel text-center">
+                <h1 class="font-orbitron" id="b-res-title">Victory!</h1>
+                <p class="text-muted" id="b-res-subtitle">You dominated the arena.</p>
+                
+                <div class="b-final-scores flex-center">
+                    <div class="b-final-card">
+                        <span>You</span>
+                        <h2 class="font-orbitron text-neon-cyan" id="b-res-you">0</h2>
+                    </div>
+                    <div class="b-final-card">
+                        <span id="b-res-opp-name">Rival</span>
+                        <h2 class="font-orbitron text-neon-purple" id="b-res-opp">0</h2>
+                    </div>
+                </div>
+                <a href="dashboard.html" class="btn-neon btn-primary w-full" style="text-decoration:none;" onclick="sfxClick()">Leave Arena</a>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/db.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/battle.js"></script>
+</body>
+</html>

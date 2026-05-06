@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Arena | QUIZWARTS</title>
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    
+    <style>
+        /* Quiz Specific Styles */
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+        .cat-card {
+            background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); padding: 24px 16px;
+            border-radius: var(--radius-md); text-align: center; cursor: pointer; transition: all 0.2s;
+        }
+        .cat-card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0,243,255,0.2); transform: translateY(-4px); }
+        .cat-icon-lg { font-size: 2.5rem; margin-bottom: 12px; color: var(--neon-cyan); }
+        
+        .difficulty-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        .diff-btn { flex-direction: column; padding: 16px; align-items: center; }
+        .diff-btn[data-diff="easy"] { border-color: var(--neon-green); color: var(--neon-green); }
+        .diff-btn[data-diff="medium"] { border-color: var(--neon-orange); color: var(--neon-orange); }
+        .diff-btn[data-diff="hard"] { border-color: var(--text-red); color: var(--text-red); }
+        
+        .quiz-container { max-width: 800px; margin: 0 auto; position: relative; overflow: hidden; }
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .badge-cat, .badge-diff { padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; background: rgba(255,255,255,0.1); }
+        .badge-cat { color: var(--neon-cyan); }
+        .badge-diff { color: var(--neon-orange); }
+        .quiz-progress-text { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: var(--text-muted); }
+        
+        /* Timer */
+        .timer-container { width: 100%; height: 12px; background: rgba(0,0,0,0.5); border-radius: 6px; position: relative; margin-bottom: 32px; overflow: hidden; border: 1px solid var(--panel-border); }
+        .timer-bar { height: 100%; width: 100%; background: var(--neon-green); transition: width 1s linear, background-color 0.3s; box-shadow: 0 0 10px var(--neon-green); }
+        .timer-text { position: absolute; right: 0; top: -28px; font-family: 'Orbitron', sans-serif; font-weight: 700; color: #fff; }
+        
+        .quiz-question-box { margin-bottom: 32px; min-height: 80px; }
+        .quiz-question-box h2 { font-size: 1.5rem; line-height: 1.4; font-weight: 600; }
+        
+        .quiz-options { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 32px; }
+        .opt-btn {
+            background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); padding: 16px 20px;
+            border-radius: var(--radius-sm); color: #fff; font-size: 1.05rem; text-align: left;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer;
+            font-family: inherit; font-weight: 500;
+        }
+        .opt-btn:hover:not(:disabled) { background: rgba(0,243,255,0.1); border-color: var(--neon-cyan); transform: scale(1.02); box-shadow: 0 0 15px rgba(0,243,255,0.15); }
+        .opt-btn.selected { background: rgba(59,130,246,0.2); border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(59,130,246,0.3); }
+        .opt-btn.correct { background: rgba(16,185,129,0.2); border-color: var(--neon-green); box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        .opt-btn.wrong { background: rgba(239,68,68,0.2); border-color: var(--text-red); box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+        
+        .quiz-actions { display: flex; justify-content: space-between; align-items: center; min-height: 50px; }
+        .feedback-text { font-size: 1.2rem; font-weight: 700; font-family: 'Orbitron', sans-serif; }
+        .feedback-text.correct { color: var(--neon-green); text-shadow: 0 0 10px rgba(16,185,129,0.5); }
+        .feedback-text.wrong { color: var(--text-red); text-shadow: 0 0 10px rgba(239,68,68,0.5); }
+        
+        /* Results */
+        .result-panel { max-width: 600px; margin: 0 auto; }
+        .result-icon { font-size: 4rem; margin-bottom: 16px; }
+        .result-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0; }
+        .res-stat { background: rgba(0,0,0,0.2); padding: 16px; border-radius: var(--radius-sm); display: flex; flex-direction: column; }
+        .res-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
+        .res-val { font-size: 1.8rem; font-family: 'Orbitron', sans-serif; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <canvas id="particle-canvas"></canvas>
+    <div class="bg-orbs">
+        <div class="neon-orb orb-1"></div>
+        <div class="neon-orb orb-2"></div>
+    </div>
+
+    <header class="topbar" id="app-topbar"></header>
+
+    <main class="main-content">
+        
+        <!-- STEP 1: CATEGORY SELECTION -->
+        <div id="view-select" class="view active">
+            <div class="page-header">
+                <div>
+                    <h1 class="font-orbitron">Select Category</h1>
+                    <p class="text-muted">Choose your battlefield.</p>
+                </div>
+                <a href="dashboard.html" class="btn-ghost" onclick="sfxClick()"><i class="ph-bold ph-arrow-left"></i> Back</a>
+            </div>
+            <div class="category-grid" id="category-grid">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <!-- STEP 2: ACTIVE QUIZ -->
+        <div id="view-active" class="view hidden">
+            <div class="quiz-container glass-panel">
+                <div class="quiz-header">
+                    <div class="quiz-meta">
+                        <span class="badge-cat" id="active-quiz-cat">Category</span>
+                        <span class="badge-diff" id="active-quiz-diff">Difficulty</span>
+                    </div>
+                    <div class="quiz-progress-text"><span id="quiz-q-num">1</span> / 10</div>
+                </div>
+                
+                <div class="timer-container">
+                    <div class="timer-bar" id="quiz-timer-bar"></div>
+                    <div class="timer-text" id="quiz-timer-text">30s</div>
+                </div>
+
+                <div class="quiz-question-box">
+                    <h2 id="quiz-question">Loading question...</h2>
+                </div>
+                
+                <div class="quiz-options" id="quiz-options">
+                    <!-- Options injected here -->
+                </div>
+                
+                <div class="quiz-actions">
+                    <div id="quiz-feedback" class="feedback-text"></div>
+                    <button class="btn-neon btn-primary" id="btn-quiz-action" disabled>Check Answer</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: RESULTS -->
+        <div id="view-result" class="view hidden">
+            <div class="result-panel glass-panel text-center">
+                <div class="result-icon glow-cyan" id="res-icon"><i class="ph-fill ph-check-circle"></i></div>
+                <h1 class="font-orbitron" id="res-title">Quiz Complete!</h1>
+                <p class="text-muted" id="res-subtitle">Great effort.</p>
+                
+                <div class="result-stats-grid">
+                    <div class="res-stat">
+                        <span class="res-label">Score</span>
+                        <span class="res-val text-neon-cyan" id="res-score">0/10</span>
+                    </div>
+                    <div class="res-stat">
+                        <span class="res-label">XP Earned</span>
+                        <span class="res-val text-neon-purple" id="res-xp">+0</span>
+                    </div>
+                    <div class="res-stat">
+                        <span class="res-label">Accuracy</span>
+                        <span class="res-val text-neon-blue" id="res-acc">0%</span>
+                    </div>
+                </div>
+                <a href="dashboard.html" class="btn-neon btn-primary w-full" style="text-decoration:none;" onclick="sfxClick()">Return to Dashboard</a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- DIFFICULTY MODAL -->
+    <div class="modal-overlay" id="difficulty-modal">
+        <div class="glass-modal">
+            <h2 class="text-center font-orbitron mb-4">Select Difficulty</h2>
+            <div class="difficulty-grid">
+                <button class="btn-neon diff-btn" data-diff="easy">
+                    <h3>Easy</h3>
+                    <p>30s / Question</p>
+                </button>
+                <button class="btn-neon diff-btn" data-diff="medium">
+                    <h3>Medium</h3>
+                    <p>20s / Question</p>
+                </button>
+                <button class="btn-neon diff-btn" data-diff="hard">
+                    <h3>Hard</h3>
+                    <p>10s / Question</p>
+                </button>
+            </div>
+            <button class="btn-ghost w-full mt-4" id="btn-cancel-diff">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="js/db.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>
