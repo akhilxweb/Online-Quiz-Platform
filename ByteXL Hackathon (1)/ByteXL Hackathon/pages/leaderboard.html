@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | QuizVerse</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 30px; margin: 40px 0; height: 300px; }
+        .podium-item { flex: 1; max-width: 180px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; }
+        .podium-avatar { width: 100px; height: 100px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin-bottom: 15px; border: 2px solid rgba(255,255,255,0.1); }
+        .first .podium-avatar { width: 130px; height: 130px; border-color: #f59e0b; box-shadow: 0 0 30px rgba(245, 158, 11, 0.3); color: #f59e0b; }
+        .podium-name { font-weight: 700; margin-bottom: 5px; }
+        .podium-xp { color: var(--primary); font-weight: 600; font-size: 0.9rem; }
+        .rank-box { width: 100%; border-radius: 15px 15px 0 0; font-weight: 800; font-size: 2rem; margin-top: 20px; display: flex; align-items: center; justify-content: center; }
+        .rank-1 { background: linear-gradient(to top, rgba(245, 158, 11, 0.2), transparent); height: 120px; color: #f59e0b; }
+        .rank-2 { background: linear-gradient(to top, rgba(148, 163, 184, 0.2), transparent); height: 90px; color: #94a3b8; }
+        .rank-3 { background: linear-gradient(to top, rgba(180, 83, 9, 0.2), transparent); height: 70px; color: #b45309; }
+
+        .lb-table { width: 100%; border-collapse: collapse; margin-top: 40px; }
+        .lb-table th { text-align: left; padding: 15px; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .lb-table td { padding: 20px 15px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .player-info { display: flex; align-items: center; gap: 12px; font-weight: 600; }
+        .player-img { width: 35px; height: 35px; border-radius: 50%; background: var(--dark); }
+    </style>
+</head>
+<body class="bg-darker">
+    <div style="margin-bottom: 40px;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 8px;">Global <span class="text-gradient">Rankings</span></h1>
+        <p style="color: var(--text-muted);">The legendary warriors of QuizVerse.</p>
+    </div>
+
+    <!-- Podium -->
+    <div class="podium-container animate-fade-in">
+        <div class="podium-item second">
+            <div class="podium-avatar"><i class="fas fa-user"></i></div>
+            <span class="podium-name">Alex Dev</span>
+            <span class="podium-xp">18,400 XP</span>
+            <div class="rank-box rank-2">2</div>
+        </div>
+        <div class="podium-item first">
+            <div class="podium-avatar"><i class="fas fa-crown"></i></div>
+            <span class="podium-name">Sarah Logic</span>
+            <span class="podium-xp">24,500 XP</span>
+            <div class="rank-box rank-1">1</div>
+        </div>
+        <div class="podium-item third">
+            <div class="podium-avatar"><i class="fas fa-user"></i></div>
+            <span class="podium-name">Code King</span>
+            <span class="podium-xp">15,200 XP</span>
+            <div class="rank-box rank-3">3</div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="glass-effect animate-fade-in" style="padding: 20px; border-radius: var(--radius-lg); margin-bottom: 40px;">
+        <table class="lb-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Warrior</th>
+                    <th>Level</th>
+                    <th>Total XP</th>
+                    <th>Win Rate</th>
+                </tr>
+            </thead>
+            <tbody id="lb-body">
+                <tr>
+                    <td>#4</td>
+                    <td><div class="player-info"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Byte" class="player-img"> ByteMaster</div></td>
+                    <td>24</td>
+                    <td style="font-weight: 700;">12,450</td>
+                    <td style="color: var(--success);">74%</td>
+                </tr>
+                <tr>
+                    <td>#5</td>
+                    <td><div class="player-info"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Java" class="player-img"> JavaGuru</div></td>
+                    <td>21</td>
+                    <td style="font-weight: 700;">10,200</td>
+                    <td style="color: var(--success);">68%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/shell.js"></script>
+</body>
+</html>
